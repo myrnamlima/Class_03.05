@@ -14,9 +14,8 @@ class C(BaseConstants):
     NUM_ROUNDS = 10
     CHOICES = ["Rock", "Paper", "Scissors"]
 
-
 class Subsession(BaseSubsession):
-    pass
+    round_number = models.IntegerField()
 
 
 class Group(BaseGroup):
@@ -32,7 +31,7 @@ class Player(BasePlayer):
 # functions
 def creating_session(subsession):
     for p in subsession.get_players(): #this is collecting the player id and assigning them as column or row players
-        if p.id_in_group % 2 == 0: # taking a number, dividing it by 2 and giving the remainder
+        if p.id_in_group % 2 != 0: # taking a number, dividing it by 2 and giving the remainder
             p.type = 1
         else:
             p.type = 2
@@ -48,6 +47,30 @@ def do_payoffs(g: Group):
         else:
             col_action = p.action
 
+        if row_action == col_action:
+            for p in players:
+                p.payoff = 0
+            print("It's a tie!")
+        elif (row_action == 1 and col_action == 2) or \
+                 (row_action == 2 and col_action == 3) or \
+                 (row_action == 3 and col_action == 1):
+            for p in players:
+                if p.type == 1:
+                    p.payoff = 1
+                else:
+                    p.payoff = -1
+                if p.type == 1 and p.payoff == 1:
+                    print("p1 wins")
+        elif (row_action == 1 and col_action == 3) or \
+                (row_action == 2 and col_action == 1) or \
+                (row_action == 3 and col_action == 2):
+            for p in players:
+                if p.type == 2:
+                    p.payoff = 1
+                else:
+                    p.payoff = -1
+                if p.type == 2 and p.payoff == 1:
+                    print("p2 wins")
 
 # PAGES
 class Action(Page):
@@ -61,7 +84,7 @@ class ResultsWaitPage(WaitPage):
 
 
 class Results(Page):
-    pass
+  pass
 
 
 page_sequence = [Action, ResultsWaitPage, Results]

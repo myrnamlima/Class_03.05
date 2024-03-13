@@ -54,7 +54,7 @@ def creating_session(s):
         #new_mtx = mtx.dot(mtx)
 
 # PAGES
-class MyPage(Page):
+class Action(Page):
     pass
 
 
@@ -66,4 +66,4 @@ class Results(Page):
     pass
 
 
-page_sequence = [MyPage, ResultsWaitPage, Results]
+page_sequence = [Action, ResultsWaitPage, Results]
