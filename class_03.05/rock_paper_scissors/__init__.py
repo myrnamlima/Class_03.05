@@ -12,11 +12,12 @@ class C(BaseConstants):
     NAME_IN_URL = 'rock_paper_scissors'
     PLAYERS_PER_GROUP = 2
     NUM_ROUNDS = 10
-    CHOICES = ["Rock", "Paper", "Scissors"]
+    ACTIONS = ["Rock", "Paper", "Scissors"]
+    PAYOFFS = [[[0,0],[-1,-1],[1,-1]],[[1,-1],[0,0],[-1,1]],[[-1,1],[1,-1],[0,0]]] #we want a list of tuples where each element is part of a sublist, this can be repeated for all 2 player games
 
 
 class Subsession(BaseSubsession):
-    pass
+    round_number = models.IntegerField()
 
 
 class Group(BaseGroup):
@@ -24,15 +25,15 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    action = models.IntegerField()
-    payout = models.IntegerField(initial = -999)
+    action = models.IntegerField() #we can change this input button. Learn how...
+    # payoff = models.IntegerField()
     type = models.IntegerField()
-
+    opponent_action = models.IntegerField() #not for payoff calculations, just to show what was the other player's actions
 
 # functions
 def creating_session(subsession):
     for p in subsession.get_players(): #this is collecting the player id and assigning them as column or row players
-        if p.id_in_group % 2 == 0: # taking a number, dividing it by 2 and giving the remainder
+        if p.id_in_group % 2 != 0: # taking a number, dividing it by 2 and giving the remainder
             p.type = 1
         else:
             p.type = 2
@@ -48,6 +49,15 @@ def do_payoffs(g: Group):
         else:
             col_action = p.action
 
+    for p in players:
+        if p.type == 1: # player is type row
+            p.payoff = C.PAYOFFS[row_action][col_action][0] #[row action][column action][inner most position of the payoffs]
+            p.opponent_action = col_action
+        else:
+            p.payoff = C.PAYOFFS[row_action][col_action][1]
+            p.opponent_action = row_action
+
+
 
 # PAGES
 class Action(Page):
@@ -61,7 +71,7 @@ class ResultsWaitPage(WaitPage):
 
 
 class Results(Page):
-    pass
+  pass
 
 
 page_sequence = [Action, ResultsWaitPage, Results]

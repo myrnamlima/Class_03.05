@@ -8,6 +8,18 @@ SESSION_CONFIGS = [
     dict(
         name='rock_paper_scissors', display_name = 'Rock, Paper, and Scissors', app_sequence=['rock_paper_scissors', 'payment_info'], num_demo_participants=2
     ),
+    dict(
+         name='drawing_shapes',
+         display_name='Geometrical drawing shapes',
+         app_sequence=['geoms'],
+         num_demo_participants=1,
+    ),
+dict(
+         name='inputs',
+         display_name='Here are different inputs for your application',
+         app_sequence=['inputs'],
+         num_demo_participants=1,
+    ),
 ]
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs
@@ -36,7 +48,10 @@ ROOMS = [
         display_name='Econ 101 class',
         participant_label_file='_rooms/econ101.txt',
     ),
-    dict(name='live_demo', display_name='Room for live demo (no participant labels)'),
+    dict(
+         name='live_demo',
+         display_name='Room for live demo (no participant labels)',
+    ),
 ]
 
 ADMIN_USERNAME = 'admin'
