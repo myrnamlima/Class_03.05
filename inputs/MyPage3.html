@@ -1,0 +1,28 @@
+{{ block title }}
+    List of inputs
+{{ endblock }}
+{{ block content }}
+
+
+
+
+
+        <p>{{ prompt }}</p>
+     {{ formfield_errors "rps_choice" }}
+
+
+            <button type="submit" name="rps_choice" value="Rock">Rock</button>
+<button type="submit" name="rps_choice" value="Paper">Paper</button>
+<button type="submit" name="rps_choice" value="Scissors">Scissors</button>
+
+
+    <style>
+        .button {
+            display: inline-block;
+            background-color: #f1f1f1;
+            border: 1px solid #ccc;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+{% endblock %}

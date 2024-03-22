@@ -44,14 +44,18 @@ class Player(BasePlayer):
         widget=widgets.RadioSelect,
         choices=[-3, -2, -1, 0, 1, 2, 3]
     )
-
+    offer_accepted = models.BooleanField() # creates two buttons "yes" and "no", they substitute the "next" button
+    rps_choice = models.StringField(
+        choices= ['Rock','Paper','Scissors'],
+        widget=widgets.RadioSelect
+    )
 
 
 
 # PAGES
 class MyPage1(Page):
     form_model = 'player'
-    form_fields = ['offer','level','level2','radio','pizza']
+    form_fields = ['offer','level','level2','radio']
 
     @staticmethod
     def vars_for_template(player):
@@ -63,7 +67,25 @@ class MyPage1(Page):
         }
         return labels
 
+
 class MyPage2(Page):
+    form_model = 'player'
+    form_fields = ['pizza', 'offer_accepted']
+
+
+class MyPage3(Page):
+    form_model = 'player'
+    form_fields = ['rps_choice']
+
+    @staticmethod
+    def vars_for_template(player):
+        return {'prompt': 'Select your move:'}
+
+    @staticmethod
+    def before_next_page(player, timeout_happened):
+        if player.rps_choice:
+            # Process the player's choice here
+            pass
 
 class ResultsWaitPage(WaitPage):
     pass
@@ -73,4 +95,4 @@ class Results(Page):
     pass
 
 
-page_sequence = [MyPage1, MyPage2 ResultsWaitPage, Results]
+page_sequence = [MyPage1, MyPage2, MyPage3, ResultsWaitPage, Results]

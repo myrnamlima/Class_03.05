@@ -8,14 +8,6 @@
     {{ formfield 'level2' label=level2_label }}
     {{ formfield 'radio' label=radio_label }}
 
-    <p>Choose the point on the scale that represents how much you like pizza:</p>
-<p>
-    Least &nbsp;
-    {{ for choice in form.pizza }}
-        {{ choice }}
-    {{ endfor }}
-    &nbsp; Most
-</p>
 
     {{ next_button }}
 

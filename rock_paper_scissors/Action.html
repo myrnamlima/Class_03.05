@@ -4,13 +4,29 @@
 {{ block content }}
 
 
-<div style = "text-align:center;">
+<style>
+        .button {
+        display: inline-block; /* Display buttons inline */
+        margin: 40px; /* Add some space around the buttons */
+        padding: 20px 40px; /* Add padding inside the buttons */
+        font-size: 18px;
+            color: ghostwhite; /* Set the font color to black */
+        background-color: lightcoral;
+        border: 1px solid #ccc;
+        cursor: pointer;
+}
+    </style>
+
+        <div style = "text-align:center;">
             <canvas id="myCanvas" width="700" height="700" style="border:1px solid #000000;"></canvas> {# this div element has a canvas element #}
-      </div>
+            <br>
+            <button class="button" type="submit" name="rps_choice" value="Rock">Rock</button>
+            <button class="button" type="submit" name="rps_choice" value="Paper">Paper</button>
+            <button class = "button" type="submit" name="rps_choice" value="Scissors">Scissors</button>
+       </div>
 
 
-{{ formfields }}
-
+{{ formfield_errors 'action' }}
 
 {{ endblock }}
 
@@ -28,7 +44,7 @@
 
     ctx.stroke();
 
-    ctx.font = '36px Comic Sans MS';
+    ctx.font = '28px Roboto';
     ctx.fillStyle = 'red';
     ctx.textAlign= 'center'; {# horizontal center #}
     ctx.textBaseline = 'middle' {# position of the baseline #}
@@ -41,6 +57,7 @@
     let pt1 = 275; //3 center points for positioning things
     let pt2 = 425;
     let pt3 = 575;
+
 
     {#ctx.fillText('hello', pt1, pt1);#}
     {#ctx.fillText('world', pt1, pt2);#}
@@ -71,6 +88,11 @@
     ctx.fillText(actions[0], pt1, 150);
     ctx.fillText(actions[1], pt2, 150);
     ctx.fillText(actions[2], pt3, 150);
+
+
+
 </script>
+
+
 
 {{endblock}}

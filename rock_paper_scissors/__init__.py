@@ -12,8 +12,12 @@ class C(BaseConstants):
     NAME_IN_URL = 'rock_paper_scissors'
     PLAYERS_PER_GROUP = 2
     NUM_ROUNDS = 10
-    CHOICES = ["Rock", "Paper", "Scissors"]
-
+    ACTIONS = ["Rock", "Paper", "Scissors"]
+    PAYOFFS = [
+        [("0, 0"), ("-1, 1"), ("1, -1")],  # Payoffs for Rock
+        [("1, -1"), ("0, 0"), ("-1, 1")],  # Payoffs for Paper
+        [("-1, 1"), ("1, -1"), ("0, 0")],  # Payoffs for Scissors
+    ]
 
 class Subsession(BaseSubsession):
     pass

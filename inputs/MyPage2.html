@@ -3,10 +3,6 @@
 {{ endblock }}
 {{ block content }}
 
-    {{ formfield 'offer' label=offer_label }}
-    {{ formfield 'level' label=level_label }}
-    {{ formfield 'level2' label=level2_label }}
-    {{ formfield 'radio' label=radio_label }}
 
     <p>Choose the point on the scale that represents how much you like pizza:</p>
 <p>
@@ -15,6 +11,12 @@
         {{ choice }}
     {{ endfor }}
     &nbsp; Most
+</p>
+
+    <p>Do you wish to accept the offer?</p>
+<button name="offer_accepted" value="True">Yes</button>
+<button name="offer_accepted" value="False">No</button>
+
 </p>
 
     {{ next_button }}
