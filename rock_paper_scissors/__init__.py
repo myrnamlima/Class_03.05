@@ -31,7 +31,7 @@ class Player(BasePlayer):
     action = models.IntegerField()
     payout = models.IntegerField(initial = -999)
     type = models.IntegerField()
-
+    opponent_action = models.IntegerField()
 
 # functions
 def creating_session(subsession):

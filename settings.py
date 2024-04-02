@@ -20,6 +20,18 @@ dict(
          app_sequence=['inputs'],
          num_demo_participants=1,
     ),
+dict(
+         name='sandwich',
+         display_name='This is the sandwich task',
+         app_sequence=['sandwich'],
+         num_demo_participants=1,
+    ),
+    dict(
+        name='regroup',
+        display_name='group matrix manipulation',
+        num_demo_participants=12,
+        app_sequence=['regroup'],
+    ),
 ]
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs

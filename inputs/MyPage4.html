@@ -1,0 +1,28 @@
+{{ block title }}
+    List of inputs
+{{ endblock }}
+{{ block content }}
+
+<form method="post" id="myForm">
+    <input type="hidden" name="slider_value" id="sliderValueInput">
+    <input type="submit" value="Submit">
+</form>
+
+<input type="range" min="0" max="100" value="50" class="slider" id="mySlider">
+<p>Value: <span id="sliderValue"></span></p>
+
+
+<script>
+var slider = document.getElementById("mySlider");
+var output = document.getElementById("sliderValue");
+var hiddenInput = document.getElementById("sliderValueInput");
+
+output.innerHTML = slider.value;
+hiddenInput.value = slider.value;
+
+slider.oninput = function() {
+  output.innerHTML = this.value;
+  hiddenInput.value = this.value;
+}
+</script>
+{% endblock %}

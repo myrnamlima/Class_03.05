@@ -87,6 +87,17 @@ class MyPage3(Page):
             # Process the player's choice here
             pass
 
+class MyPage4(Page):
+    form_model = 'player'
+    form_fields = ['slider_value']
+
+    @staticmethod
+    def vars_for_template(self):
+        return {}
+
+
+
+
 class ResultsWaitPage(WaitPage):
     pass
 
@@ -95,4 +106,4 @@ class Results(Page):
     pass
 
 
-page_sequence = [MyPage1, MyPage2, MyPage3, ResultsWaitPage, Results]
+page_sequence = [MyPage1, MyPage2, MyPage3, MyPage4, ResultsWaitPage, Results]
