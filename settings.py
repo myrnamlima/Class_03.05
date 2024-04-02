@@ -38,6 +38,12 @@ dict(
         num_demo_participants=1,
         app_sequence=['sliders'],
     ),
+    dict(
+        name='lists',
+        display_name='UI with two linked and sortable lists',
+        num_demo_participants=1,
+        app_sequence=['lists'],
+    ),
 ]
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs

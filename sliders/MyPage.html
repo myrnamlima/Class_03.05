@@ -47,7 +47,7 @@
     <div class="slidecontainer">
       <p>Default range slider:</p>
       <input id="slider_1" type="range" min="1" max="100" value="50">
-      <p>The current value of this slider is <span id="output_1"></span></p>
+      <p>The current value of this slider is <span id="output_1"></span></p> {# a span is how I define the empty container that waits for me to put a number into it #}
         <br>
         <br>
 
@@ -79,17 +79,21 @@
 
             let slider_1 = document.getElementById("slider_1");
             let output_1 = document.getElementById("output_1");
-            output_1.textContent = slider_1.value;
+
+            // sets text in span
+            output_1.textContent = .1 * slider_1.value; // scaling down
+
+            // sets hidden field for otree
             $("#response_1").val(slider_1.value);
 
             let slider_2 = document.getElementById("slider_2");
             let output_2 = document.getElementById("output_2");
-            output_2.textContent = slider_2.value;
+            output_2.textContent = 10 * slider_2.value; //scaling up
             $("#response_2").val(slider_2.value);
 
 
             // Update both the onscreen numeric output AND hidden field whenever sliders are moved
-
+            // whenever slider 1 is moved, I want to update the text value and the hidden field
             slider_1.oninput = function() {
               output_1.textContent = this.value;
               $("#response_1").val(slider_1.value);

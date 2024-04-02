@@ -1,0 +1,127 @@
+{{ block title }}
+    Sortable lists!
+{{ endblock }}
+
+{{ block style }}
+  <style>
+      #sortable1, #sortable2 {
+        border: 1px solid #eee;
+        width: 142px;
+        min-height: 20px;
+        list-style-type: none;
+        margin: 0;
+        padding: 5px 0 0 0;
+        float: left;
+        margin-right: 10px;
+      }
+      #sortable1 li, #sortable2 li {
+        margin: 0 5px 5px 5px;
+        padding: 5px;
+        font-size: 1.2em;
+        width: 120px;
+      }
+  </style>
+{{ endblock }}
+
+{{ block content }}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-6 justify-content-center">
+                <p>List A</p>
+                <ul id="sortable1" class="connectedSortable list-group">
+                    <li class="ui-state-default list-group-item">1</li>
+                    <li class="ui-state-default list-group-item">2</li>
+                    <li class="ui-state-default list-group-item">3</li>
+                    <li class="ui-state-default list-group-item">4</li>
+                    <li class="ui-state-default list-group-item">5</li>
+                </ul>
+            </div>
+            <div class = "col-6 justify-content-center">
+                <p>List B</p>
+                <ul id="sortable2" class="connectedSortable list-group"></ul>
+            </div>
+            <div class="col-6 justify-content-center">
+                <p>List C</p>
+                <ul id="sortable3" class="connectedSortable list-group">
+                    <li class="ui-state-default list-group-item">1</li>
+                    <li class="ui-state-default list-group-item">2</li>
+                    <li class="ui-state-default list-group-item">3</li>
+                    <li class="ui-state-default list-group-item">4</li>
+                    <li class="ui-state-default list-group-item">5</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+<br>
+
+
+
+    {#    Do not use default otree formfields#}
+    {#    {{ formfields }}#}
+
+    <input type="hidden" name="response" id="response" />
+
+
+    <button class="otree-btn-next btn btn-primary">Submit list B</button>
+
+
+{{ endblock }}
+
+{{ block script }}
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script>
+        $( document ).ready(function() {
+
+            // set up the lists
+            $( function() {
+                $( "#sortable1, #sortable2, #sortable3" ).sortable({connectWith: ".connectedSortable"}).disableSelection();
+            });
+
+            // create a function that will update the hidden field for otree with the current items in list B
+            function update_response() {
+
+                // Select the items in list B
+                var list = $('#sortable2 li');
+
+                // Convert the these items to an array
+                var array = $.makeArray(list);
+
+                // Map each item in the array to its innerHTML property
+                let items = array.map((item) => item.innerHTML)
+
+                // Update the innerHTML of the output element with the items in square brackets
+                response = "[ " + items + " ]"
+
+                $("#response").val(response);
+            }
+
+            // call this new function on page load
+            update_response();
+            console.log(response);
+
+            // set a listener to call this function whenever the list changes
+
+            let mList = document.getElementById('sortable2'),
+            options = {
+              childList: true
+            },
+            observer = new MutationObserver(mCallback);
+
+            function mCallback(mutations) {
+              for (let mutation of mutations) {
+                if (mutation.type === 'childList') {
+                  update_response();
+                  console.log(response);
+                }
+              }
+            }
+
+            observer.observe(mList, options); //it observer the mutation of mList
+
+
+        });
+    </script>
+{{ endblock }}
