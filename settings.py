@@ -32,6 +32,12 @@ dict(
         num_demo_participants=12,
         app_sequence=['regroup'],
     ),
+    dict(
+        name='sliders',
+        display_name='example using UI sliders',
+        num_demo_participants=1,
+        app_sequence=['sliders'],
+    ),
 ]
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs

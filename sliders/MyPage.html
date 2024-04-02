@@ -1,0 +1,107 @@
+{{ block title }}
+    Sliders!
+{{ endblock }}
+
+{{ block style }}
+
+<style>
+    .slidecontainer {
+      width: 100%;
+    }
+
+    .slider {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 25px;
+      background: #d3d3d3;
+      outline: none;
+      opacity: 0.7;
+      -webkit-transition: .2s;
+      transition: opacity .2s;
+    }
+
+    .slider:hover {
+      opacity: 1;
+    }
+
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 25px;
+      height: 25px;
+      background: #04AA6D;
+      cursor: pointer;
+    }
+
+    .slider::-moz-range-thumb {
+      width: 25px;
+      height: 25px;
+      background: #04AA6D;
+      cursor: pointer;
+    }
+    </style>
+{{ endblock }}
+
+{{ block content }}
+
+    <div class="slidecontainer">
+      <p>Default range slider:</p>
+      <input id="slider_1" type="range" min="1" max="100" value="50">
+      <p>The current value of this slider is <span id="output_1"></span></p>
+        <br>
+        <br>
+
+      <p>Custom range slider:</p>
+      <input id="slider_2" type="range" min="1" max="100" value="50" class="slider" >
+      <p>The current value of this slider is <span id="output_2"></span></p>
+
+    </div>
+
+
+
+    {# Remember to comment out the following line because we are handling the input fields differently than otree default.  #}
+    {#    {{ formfields }}      #}
+
+    <input type="hidden" name="value_1" id="response_1" />
+    <input type="hidden" name="value_2" id="response_2" />
+
+
+    {{ next_button }}
+
+{{ endblock }}
+
+{{ block script }}
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function() {
+
+            // get object hooks and update initial values on page load
+
+            let slider_1 = document.getElementById("slider_1");
+            let output_1 = document.getElementById("output_1");
+            output_1.textContent = slider_1.value;
+            $("#response_1").val(slider_1.value);
+
+            let slider_2 = document.getElementById("slider_2");
+            let output_2 = document.getElementById("output_2");
+            output_2.textContent = slider_2.value;
+            $("#response_2").val(slider_2.value);
+
+
+            // Update both the onscreen numeric output AND hidden field whenever sliders are moved
+
+            slider_1.oninput = function() {
+              output_1.textContent = this.value;
+              $("#response_1").val(slider_1.value);
+            }
+            slider_2.oninput = function() {
+              output_2.textContent = this.value;
+              $("#response_2").val(slider_2.value);
+
+            }
+        });
+
+
+
+    </script>
+{{ endblock }}
