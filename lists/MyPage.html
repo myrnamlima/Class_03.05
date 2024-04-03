@@ -4,7 +4,7 @@
 
 {{ block style }}
   <style>
-      #sortable1, #sortable2 {
+      #sortable1, #sortable2, #sortable3, #sortable4 {
         border: 1px solid #eee;
         width: 142px;
         min-height: 20px;
@@ -14,7 +14,7 @@
         float: left;
         margin-right: 10px;
       }
-      #sortable1 li, #sortable2 li {
+      #sortable1 li, #sortable2 li, #sortable3 li, #sortable4 li {
         margin: 0 5px 5px 5px;
         padding: 5px;
         font-size: 1.2em;
@@ -28,27 +28,37 @@
     <div class="container">
         <div class="row">
             <div class="col-6 justify-content-center">
-                <p>List A</p>
+                <p>Bread</p>
                 <ul id="sortable1" class="connectedSortable list-group">
-                    <li class="ui-state-default list-group-item">1</li>
-                    <li class="ui-state-default list-group-item">2</li>
-                    <li class="ui-state-default list-group-item">3</li>
-                    <li class="ui-state-default list-group-item">4</li>
-                    <li class="ui-state-default list-group-item">5</li>
+                    <li class="ui-state-default list-group-item">Rye</li>
+                    <li class="ui-state-default list-group-item">Brioche</li>
+                    <li class="ui-state-default list-group-item">Sourdough</li>
+                    <li class="ui-state-default list-group-item">Ciabatta</li>
+                    <li class="ui-state-default list-group-item">Bagel</li>
                 </ul>
             </div>
             <div class = "col-6 justify-content-center">
-                <p>List B</p>
+                <p>Sandwich</p>
                 <ul id="sortable2" class="connectedSortable list-group"></ul>
             </div>
             <div class="col-6 justify-content-center">
-                <p>List C</p>
+                <p>Cheese</p>
                 <ul id="sortable3" class="connectedSortable list-group">
-                    <li class="ui-state-default list-group-item">1</li>
-                    <li class="ui-state-default list-group-item">2</li>
-                    <li class="ui-state-default list-group-item">3</li>
-                    <li class="ui-state-default list-group-item">4</li>
-                    <li class="ui-state-default list-group-item">5</li>
+                    <li class="ui-state-default list-group-item">Cheddar</li>
+                    <li class="ui-state-default list-group-item">Parmesan</li>
+                    <li class="ui-state-default list-group-item">Feta</li>
+                    <li class="ui-state-default list-group-item">Mozzarella</li>
+                    <li class="ui-state-default list-group-item">Cream Cheese</li>
+                </ul>
+            </div>
+             <div class="col-6 justify-content-center">
+                <p>Protein</p>
+                <ul id="sortable4" class="connectedSortable list-group">
+                    <li class="ui-state-default list-group-item">Pastrami</li>
+                    <li class="ui-state-default list-group-item">Hamburger</li>
+                    <li class="ui-state-default list-group-item">Chicken</li>
+                    <li class="ui-state-default list-group-item">Salmon</li>
+                    <li class="ui-state-default list-group-item">Vegan Meat</li>
                 </ul>
             </div>
         </div>
@@ -64,7 +74,7 @@
     <input type="hidden" name="response" id="response" />
 
 
-    <button class="otree-btn-next btn btn-primary">Submit list B</button>
+    <button class="otree-btn-next btn btn-primary">Submit Order</button>
 
 
 {{ endblock }}
@@ -77,7 +87,7 @@
 
             // set up the lists
             $( function() {
-                $( "#sortable1, #sortable2, #sortable3" ).sortable({connectWith: ".connectedSortable"}).disableSelection();
+                $( "#sortable1, #sortable2, #sortable3, #sortable4" ).sortable({connectWith: ".connectedSortable"}).disableSelection();
             });
 
             // create a function that will update the hidden field for otree with the current items in list B
