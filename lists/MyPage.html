@@ -4,7 +4,11 @@
 
 {{ block style }}
   <style>
-      #sortable1, #sortable2, #sortable3, #sortable4 {
+      .order{
+          font-size: 1.2em;
+          color: red;
+      }
+      #sortable1, #sortable2, #sortable3, #sortable4, #sortable5, #sortable6 {
         border: 1px solid #eee;
         width: 142px;
         min-height: 20px;
@@ -14,34 +18,45 @@
         float: left;
         margin-right: 10px;
       }
-      #sortable1 li, #sortable2 li, #sortable3 li, #sortable4 li {
+      #sortable1 li, #sortable2 li, #sortable3 li, #sortable4 li, #sortable5 li, #sortable6 li {
         margin: 0 5px 5px 5px;
         padding: 5px;
         font-size: 1.2em;
         width: 120px;
       }
+      #next-order-btn {
+        position: relative;
+    }
+      #submit-btn {
+        position: relative;
+      }
   </style>
 {{ endblock }}
 
 {{ block content }}
-
+    <div class="order">
+                <p>Current Order: <span id="current-order"></span></p>
+                <br>
+    </div>
     <div class="container">
         <div class="row">
-            <div class="col-6 justify-content-center">
+            <div class = "col-2 justify-content-center">
+                <p>Sandwich</p>
+                <ul id="sortable1" class="connectedSortable list-group"></ul>
+            </div>
+            <div class="col-2 justify-content-center">
                 <p>Bread</p>
-                <ul id="sortable1" class="connectedSortable list-group">
+                <ul id="sortable2" class="connectedSortable list-group">
                     <li class="ui-state-default list-group-item">Rye</li>
                     <li class="ui-state-default list-group-item">Brioche</li>
                     <li class="ui-state-default list-group-item">Sourdough</li>
                     <li class="ui-state-default list-group-item">Ciabatta</li>
                     <li class="ui-state-default list-group-item">Bagel</li>
+                    <li class="ui-state-default list-group-item">Wrap</li>
                 </ul>
             </div>
-            <div class = "col-6 justify-content-center">
-                <p>Sandwich</p>
-                <ul id="sortable2" class="connectedSortable list-group"></ul>
-            </div>
-            <div class="col-6 justify-content-center">
+            <br>
+            <div class="col-2 justify-content-center">
                 <p>Cheese</p>
                 <ul id="sortable3" class="connectedSortable list-group">
                     <li class="ui-state-default list-group-item">Cheddar</li>
@@ -51,14 +66,39 @@
                     <li class="ui-state-default list-group-item">Cream Cheese</li>
                 </ul>
             </div>
-             <div class="col-6 justify-content-center">
+            <br>
+             <div class="col-2 justify-content-center">
                 <p>Protein</p>
                 <ul id="sortable4" class="connectedSortable list-group">
                     <li class="ui-state-default list-group-item">Pastrami</li>
+                    <li class="ui-state-default list-group-item">Roast Beef</li>
                     <li class="ui-state-default list-group-item">Hamburger</li>
+                    <li class="ui-state-default list-group-item">Turkey</li>
+                    <li class="ui-state-default list-group-item">Bacon</li>
                     <li class="ui-state-default list-group-item">Chicken</li>
                     <li class="ui-state-default list-group-item">Salmon</li>
+                    <li class="ui-state-default list-group-item">Egg</li>
                     <li class="ui-state-default list-group-item">Vegan Meat</li>
+                </ul>
+            </div>
+            <br>
+            <div class="col-2 justify-content-center">
+                <p>Veggies</p>
+                <ul id="sortable5" class="connectedSortable list-group">
+                    <li class="ui-state-default list-group-item">Lettuce</li>
+                    <li class="ui-state-default list-group-item">Pickles</li>
+                    <li class="ui-state-default list-group-item">Onion</li>
+                    <li class="ui-state-default list-group-item">Tomato</li>
+                    <li class="ui-state-default list-group-item">Carrots</li>
+                </ul>
+            </div>
+            <div class="col-2 justify-content-center">
+                <p>Spreads</p>
+                <ul id="sortable6" class="connectedSortable list-group">
+                    <li class="ui-state-default list-group-item">Mayo</li>
+                    <li class="ui-state-default list-group-item">Ketchup</li>
+                    <li class="ui-state-default list-group-item">Mustard</li>
+                    <li class="ui-state-default list-group-item">Barbecue Sauce</li>
                 </ul>
             </div>
         </div>
@@ -68,33 +108,46 @@
 
 
 
-    {#    Do not use default otree formfields#}
-    {#    {{ formfields }}#}
+    {#    Do not use default otree formfields #}
+    {#    {{ formfields }} #}
 
     <input type="hidden" name="response" id="response" />
 
+    <div class="error-message">
+        {{ formfield_errors 'response' }}
+    </div>
 
-    <button class="otree-btn-next btn btn-primary">Submit Order</button>
+    <button id="submit-btn" class="otree-btn-next btn btn-primary">Submit Order</button>
+
+    <div id="message" style="display: none;">
+        You just submitted the order. The order was <span id="current-order-display"></span>.
+        <br>
+        You order had the following ingredients <span id="ordered-list"></span>.
+        <br>
+        Click the "Get next order" button below to get a new order.
+    </div>
+
+<button id="next-order-btn" class="otree-btn-next btn btn-primary">Get next order</button>
 
 
 {{ endblock }}
 
 {{ block script }}
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script src=https://code.jquery.com/jquery-3.6.0.js></script>
+    <script src=https://code.jquery.com/ui/1.13.2/jquery-ui.js></script>
     <script>
         $( document ).ready(function() {
 
             // set up the lists
             $( function() {
-                $( "#sortable1, #sortable2, #sortable3, #sortable4" ).sortable({connectWith: ".connectedSortable"}).disableSelection();
+                $( "#sortable1, #sortable2, #sortable3, #sortable4, #sortable5, #sortable6" ).sortable({connectWith: ".connectedSortable"}).disableSelection();
             });
 
             // create a function that will update the hidden field for otree with the current items in list B
             function update_response() {
 
                 // Select the items in list B
-                var list = $('#sortable2 li');
+                var list = $('#sortable1 li');
 
                 // Convert the these items to an array
                 var array = $.makeArray(list);
@@ -112,9 +165,60 @@
             update_response();
             console.log(response);
 
+              // Define possible orders
+            var orders = [
+                "Cheeseburger with Mayo",
+                "Turkey Sandwich with Mustard",
+                "Veggie Wrap with Ranch",
+                "Hamburger with Ketchup",
+                "BLT with Mayo"
+            ];
+
+            // Function to update the current order
+            function updateCurrentOrder() {
+                var currentOrder = orders[Math.floor(Math.random() * orders.length)];
+                $('#current-order').text(currentOrder);
+                $('#current-order-display').text(currentOrder); // Update the currentOrder span in the message
+            }
+
+            // Update the current order on page load
+            updateCurrentOrder();
+
+            // Handle button click
+            $('#submit-btn').on('click', function(event) {
+                event.preventDefault(); // prevent default form submission
+
+                // Get the current order from the hidden field
+                var orderedList = $('#response').val();
+                // Show the message with the ordered list
+                $('#ordered-list').text(orderedList);
+                $('#message').show();
+            });
+
+
+            // Handle "Get next order" button click
+            $('#next-order-btn').on('click', function(event) {
+                event.preventDefault(); // prevent default form submission
+
+                // Reset the sortable lists to their original state
+                $('#sortable1').html('');
+                $('#sortable2').html('<li class="ui-state-default list-group-item">Rye</li><li class="ui-state-default list-group-item">Brioche</li><li class="ui-state-default list-group-item">Sourdough</li><li class="ui-state-default list-group-item">Ciabatta</li><li class="ui-state-default list-group-item">Bagel</li><li class="ui-state-default list-group-item">Wrap</li>');
+                $('#sortable3').html('<li class="ui-state-default list-group-item">Cheddar</li><li class="ui-state-default list-group-item">Parmesan</li><li class="ui-state-default list-group-item">Feta</li><li class="ui-state-default list-group-item">Mozzarella</li><li class="ui-state-default list-group-item">Cream Cheese</li>');
+                $('#sortable4').html('<li class="ui-state-default list-group-item">Pastrami</li><li class="ui-state-default list-group-item">Roast Beef</li><li class="ui-state-default list-group-item">Hamburger</li><li class="ui-state-default list-group-item">Turkey</li><li class="ui-state-default list-group-item">Bacon</li><li class="ui-state-default list-group-item">Chicken</li><li class="ui-state-default list-group-item">Salmon</li><li class="ui-state-default list-group-item">Egg</li><li class="ui-state-default list-group-item">Vegan Meat</li>');
+                $('#sortable5').html('<li class="ui-state-default list-group-item">Lettuce</li><li class="ui-state-default list-group-item">Pickles</li><li class="ui-state-default list-group-item">Onion</li><li class="ui-state-default list-group-item">Tomato</li><li class="ui-state-default list-group-item">Carrots</li>');
+                $('#sortable6').html('<li class="ui-state-default list-group-item">Mayo</li><li class="ui-state-default list-group-item">Ketchup</li><li class="ui-state-default list-group-item">Mustard</li><li class="ui-state-default list-group-item">Barbecue Sauce</li>');
+
+            // Hide the message
+            $('#message').hide();
+
+            // Update the current order
+                updateCurrentOrder();
+            });
+
+
             // set a listener to call this function whenever the list changes
 
-            let mList = document.getElementById('sortable2'),
+            let mList = document.getElementById('sortable1'),
             options = {
               childList: true
             },
