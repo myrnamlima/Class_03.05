@@ -1,6 +1,7 @@
 from otree.api import *
 
 
+
 doc = """
 Your app description
 """
@@ -28,6 +29,18 @@ class Player(BasePlayer):
 class MyPage(Page):
     form_model = 'player'
     form_fields = ['response']
+    timeout_seconds = 20
+
+    def vars_for_template(self):
+        return {'time_left': self.subsession.get_remaining_time()}
+
+    def before_next_page(self):
+        if self.timeout_happened:
+            self.player.advance_to_results_page()
+
+    def timeout_next_page(self):
+        return Results  # Redirect to the Results page
+
 
 
 class ResultsWaitPage(WaitPage):

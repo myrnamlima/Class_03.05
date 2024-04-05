@@ -7,7 +7,7 @@ Your app description
 
 
 class C(BaseConstants):
-    NAME_IN_URL = 'sandwich'
+    NAME_IN_URL = 'timeout'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
 
@@ -26,8 +26,7 @@ class Player(BasePlayer):
 
 # PAGES
 class MyPage(Page):
-    timeout_seconds = 240
-
+    timeout_seconds = 20
 
 
 class ResultsWaitPage(WaitPage):

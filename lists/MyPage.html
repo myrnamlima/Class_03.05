@@ -1,9 +1,12 @@
 {{ block title }}
-    Sortable lists!
+    Sandwich Shop
 {{ endblock }}
 
 {{ block style }}
   <style>
+      #countdown {
+        font-size: 24px;
+      }
       .order{
           font-size: 1.2em;
           color: red;
@@ -111,9 +114,9 @@
     {#    Do not use default otree formfields #}
     {#    {{ formfields }} #}
 
-    <input type="hidden" name="response" id="response" />
 
-    <div class="error-message">
+    <input type="hidden" name="response" id="response" />
+        <div class="error-message">
         {{ formfield_errors 'response' }}
     </div>
 
@@ -127,14 +130,18 @@
         Click the "Get next order" button below to get a new order.
     </div>
 
-<button id="next-order-btn" class="otree-btn-next btn btn-primary">Get next order</button>
+    <button id="next-order-btn" class="otree-btn-next btn btn-primary">Get next order</button>
+
+
+
+
 
 
 {{ endblock }}
 
 {{ block script }}
-    <script src=https://code.jquery.com/jquery-3.6.0.js></script>
-    <script src=https://code.jquery.com/ui/1.13.2/jquery-ui.js></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script>
         $( document ).ready(function() {
 
