@@ -4,132 +4,172 @@
 {{ block content }}
 <div class="order">
     <p>Current Order: <span id="current-order"></span></p>
-    <br>
+    <select id="ingredients-dropdown">
+        <option value="" disabled selected>Ingredients</option>
+    </select>
 </div>
-<br>
+
 <select id="bread-dropdown">
     <option value="" disabled selected>Select Bread</option>
-    <option value="neutral">None</option>
-    <option value="rye">Rye</option>
-    <option value="wheat">Wheat</option>
-    <option value="white">White</option>
-    <option value="white">Wrap</option>
+    <option value="deselect">Deselect</option>
+    <option value="Brioche">Brioche</option>
+    <option value="Rye">Rye</option>
+    <option value="Wheat">Wheat</option>
+    <option value="White">White</option>
+    <option value="Wrap">Wrap</option>
+    <option value="No Bread">No Bread</option>
 </select>
 <select id="meat-dropdown">
     <option value="" disabled selected>Select Meat</option>
-    <option value="neutral">None</option>
-    <option value="ham">Ham</option>
-    <option value="bacon">Bacon</option>
-    <option value="hamburger">Hamburger</option>
-    <option value="turkey">Turkey</option>
+    <option value="deselect">Deselect</option>
+    <option value="Ham">Ham</option>
+    <option value="Bacon">Bacon</option>
+    <option value="Hamburger">Hamburger</option>
+    <option value="Turkey">Turkey</option>
+    <option value="No Meat">No Meat</option>
 </select>
 
 <select id="cheese-dropdown">
     <option value="" disabled selected>Select Cheese</option>
-    <option value="neutral">None</option>
-    <option value="cheddar">Cheddar</option>
-    <option value="swiss">Swiss</option>
-    <option value="american">American</option>
+    <option value="deselect">Deselect</option>
+    <option value="Cheddar">Cheddar</option>
+    <option value="Swiss">Swiss</option>
+    <option value="American">American</option>
+    <option value="No Cheese">No Cheese</option>
 </select>
-<select id="salads-dropdown">
-    <option value="" disabled selected>Select Salad</option>
-    <option value="neutral">None</option>
-    <option value="lettuce">Lettuce</option>
-    <option value="tomato">Tomato</option>
-    <option value="onion">Onion</option>
+<select id="veggie-dropdown">
+    <option value="" disabled selected>Select Vegetables</option>
+    <option value="deselect">Deselect</option>
+    <option value="Lettuce">Lettuce</option>
+    <option value="Tomato">Tomato</option>
+    <option value="Onion">Onion</option>
+    <option value="No Veggies">No Vegetables</option>
 </select>
-<!-- Add dropdowns for other ingredients -->
+<select id="cond-dropdown">
+    <option value="" disabled selected>Select Condiments</option>
+    <option value="deselect">Deselect</option>
+    <option value="Mayo">Mayo</option>
+    <option value="Ketchup">Ketchup</option>
+    <option value="Yellow Mustard">Yellow Mustard</option>
+    <option value="Dijon Mustard">Dijon Mustard</option>
+    <option value="Ranch">Ranch</option>
+    <option value="No Condiments">No Condiments</option>
+</select>
 
 
 <button id="submit-order">Submit Order</button>
 
 {{ formfields }}
 <script>
-     $(document).ready(function() {
+    $(document).ready(function() {
     // Define possible orders
     var orders = [
-        { name: "Cheeseburger with Mayo", bread: "Brioche", cheese: "Cheddar", meat: "Hamburger", salads: "Tomato"},
-        { name: "Turkey Sandwich with Mustard", bread: "White", cheese: "Swiss", meat: "Turkey" },
-        { name: "Veggie Wrap with Ranch", bread: "Wrap", cheese: "American", salads: "Lettuce" },
-        { name: "Hamburger with Ketchup", bread: "Wheat", cheese: "Cheddar", meat: "Hamburger" },
-        { name: "BLT with Mayo", bread: "Rye", cheese: "Swiss", meat: "Bacon" }
-    ];
+    { name: "Cheeseburger with Mayo", bread: "Brioche", cheese: "Cheddar", meat: "Hamburger", veggie: "Tomato", cond: "Mayo"},
+    { name: "Turkey Sandwich with Yellow Mustard", bread: "White", cheese: "Swiss", meat: "Turkey", veggie: "No Veggies", cond: "Yellow Mustard" },
+    { name: "Veggie Wrap with Ranch", bread: "Wrap", meat: "No Meat", cheese: "American", veggie: "Lettuce", cond: "Ranch" },
+    { name: "Hamburger with Ketchup", bread: "Wheat", meat: "Hamburger", cheese: "No Cheese", veggie: "No Veggie", cond: "Ketchup" },
+    { name: "BLT with Mayo", bread: "Rye", cheese: "Swiss", meat: "Bacon", veggie: "Lettuce", cond: "Mayo" }
+];
 
+    var ordersSubmitted = 0;
+    var totalErrors = 0;
+    var ordersRedone = 0;
     var currentOrderIndex = -1;
 
-    // Function to update the current order
-    function updateCurrentOrder() {
+    var currentOrderIndex = localStorage.getItem('currentOrderIndex');
+    if (currentOrderIndex === null || currentOrderIndex === undefined) {
         currentOrderIndex = Math.floor(Math.random() * orders.length);
+        localStorage.setItem('currentOrderIndex', currentOrderIndex);
+    }
+
+    function updateCurrentOrder() {
         var currentOrder = orders[currentOrderIndex];
         $('#current-order').text(currentOrder.name);
+
+    // Update the ingredients dropdown
+    var ingredientsDropdown = $('#ingredients-dropdown');
+    ingredientsDropdown.empty(); // Clear existing options
+    ingredientsDropdown.append($('<option>', {
+        value: '',
+        text: 'Ingredients'
+    }));
+    for (var key in currentOrder) {
+        if (key !== 'name') {
+            ingredientsDropdown.append($('<option>', {
+                value: currentOrder[key],
+                text: currentOrder[key]
+            }));
+        }
     }
+}
 
     // Update the current order on page load
     updateCurrentOrder();
 
-    // Bind the updateCurrentOrder function to the submit-order button click event
-    $('#submit-order').on('click', function(event) {
-        event.preventDefault(); // Prevent form submission
 
-        var selectedBread = $('#bread-dropdown option:selected').text();
-        var selectedCheese = $('#cheese-dropdown option:selected').text();
-        var selectedMeat = $('#meat-dropdown option:selected').text();
-        var selectedSalads = $('#salads-dropdown option:selected').text();
+      // Bind the updateCurrentOrder function to the submit-order button click event
+$('#submit-order').on('click', function(event) {
+    event.preventDefault(); // Prevent form submission
 
-        // Check if the selected options match the current order
-        var currentOrder = orders[currentOrderIndex];
-        var errors = 0;
-        if (currentOrder.bread !== selectedBread) {
-            errors++;
-        }
-        if (currentOrder.meat !== selectedMeat) {
-            errors++;
-        }
-        if (currentOrder.cheese !== selectedCheese) {
-            errors++;
-        }
-        if (currentOrder.salads !== selectedSalads) {
-            errors++;
-        }
+    var selectedBread = $('#bread-dropdown option:selected').text();
+    var selectedCheese = $('#cheese-dropdown option:selected').text();
+    var selectedMeat = $('#meat-dropdown option:selected').text();
+    var selectedVeggie = $('#veggie-dropdown option:selected').text();
+    var selectedCond = $('#cond-dropdown option:selected').text();
 
-        // Display message based on errors
-        if (errors <= 4) {
-            alert('Order submitted successfully!');
-            updateCurrentOrder(); // Update the order for the next round
-            // Reset dropdowns to default state
-            $('#bread-dropdown').val('');
-            $('#cheese-dropdown').val('');
-            $('#meat-dropdown').val('');
-            $('#salads-dropdown').val('');
-        } else {
-            alert('You have more than 4 errors. Please remake the order.');
-        }
-    });
+    // Check if the selected options match the current order
+    var currentOrder = orders[currentOrderIndex];
+    var errors = 0;
+    if (currentOrder.bread !== selectedBread || selectedBread === 'Select Bread') {
+        errors++;
+    }
+    if (currentOrder.meat !== selectedMeat || selectedMeat === 'Select Meat') {
+        errors++;
+    }
+    if (currentOrder.cheese !== selectedCheese || selectedCheese === 'Select Cheese') {
+        errors++;
+    }
+    if (currentOrder.veggie !== selectedVeggie || selectedVeggie === 'Select Vegetables') {
+        errors++;
+    }
+    if (currentOrder.cond !== selectedCond || selectedCond === 'Select Condiments') {
+        errors++;
+    }
 
-    // Bind the reset of dropdowns to the "Select" option
-    $('#bread-dropdown').on('change', function() {
-        if ($(this).val() === '') {
+    // Display message based on errors
+    if (errors <= 4) {
+        alert('Order submitted successfully!');
+        ordersSubmitted++;
+        totalErrors += errors;
+        console.log("# of errors in this order: ", errors);
+        console.log("# of total errors: ", totalErrors);
+        console.log("# of orders submitted: ", ordersSubmitted);
+        // Calculate average errors
+        var averageErrors = totalErrors / ordersSubmitted;
+        console.log("Average number of errors: " + averageErrors);
+        updateCurrentOrder(); // Update the order for the next round
+        // Reset dropdowns to default state
+        $('#bread-dropdown').val('');
+        $('#cheese-dropdown').val('');
+        $('#meat-dropdown').val('');
+        $('#veggie-dropdown').val('');
+        $('#cond-dropdown').val('');
+    } else {
+        alert('You have more than 4 errors. Please remake the order.');
+        ordersRedone++;
+        console.log("# of orders redone: ", ordersRedone);
+    }
+});
+
+
+// Bind the reset of dropdowns to the "Select" option
+    $('#bread-dropdown, #cheese-dropdown, #meat-dropdown, #veggie-dropdown, #cond-dropdown').on('change', function() {
+        if ($(this).val() === 'deselect') {
             $(this).val('');
         }
     });
-
-    $('#cheese-dropdown').on('change', function() {
-        if ($(this).val() === '') {
-            $(this).val('');
-        }
-    });
-    $('#meat-dropdown').on('change', function() {
-        if ($(this).val() === '') {
-            $(this).val('');
-        }
-    });
-    $('#salads-dropdown').on('change', function() {
-        if ($(this).val() === '') {
-            $(this).val('');
-        }
-    });
-
 });
 
 </script>
+
 {{ endblock }}
